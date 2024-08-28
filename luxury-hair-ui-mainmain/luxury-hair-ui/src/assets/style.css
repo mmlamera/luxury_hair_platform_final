@@ -1,0 +1,243 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    padding: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+button, input[type="submit"] {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Navbar Styles */
+nav {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    color: #fff;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+/* Hero Section Styles */
+.hero {
+    background-image: url(Kiki.jpg);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-content .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 30px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+}
+
+.hero-content .btn:hover {
+    background-color: #555;
+}
+
+/* Products Section Styles */
+.products {
+    background-color: #000000;
+    padding: 50px 20px;
+}
+
+.products h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.product-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    margin: 20px 0;
+    font-size: 24px;
+}
+
+.product-card p {
+    font-size: 18px;
+    color: #000000;
+}
+
+/* Services Section Styles */
+.services {
+    background-color: #000000;
+    padding: 50px 20px;
+}
+
+.services h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.services ul {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.services ul li {
+    font-size: 20px;
+}
+
+/* Contact Section Styles */
+.contact {
+    background-color: #fff;
+    padding: 50px 20px;
+}
+
+.contact h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.contact input[type="text"],
+.contact input[type="email"],
+.contact textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.contact button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Footer (optional) */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 0;
+}
+
+.flex{
+    display: flex;
+}
+.bg-black{
+    background-color: black;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.justify-center{
+    justify-content: center;
+}
+

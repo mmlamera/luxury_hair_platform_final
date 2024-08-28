@@ -1,0 +1,108 @@
+.singleproduct {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.single-product-card {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.single-product-image {
+    flex: 1;
+    max-width: 50%;
+    height: auto;
+    object-fit: cover;
+    border-right: 1px solid #ddd;
+}
+
+.single-product-details {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.single-product-name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.single-product-price {
+    font-size: 1.5rem;
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+
+.filter-options {
+    margin-bottom: 20px;
+}
+
+.filter-options label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filter-options select,
+.filter-options input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.add-to-cart-button,
+.buy-now-button {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-button:hover,
+.buy-now-button:hover {
+    background-color: #e6b800;
+}
+
+.review-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.submit-review-button,
+.other-reviews-button {
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-review-button:hover,
+.other-reviews-button:hover {
+    background-color: #bbb;
+}
+
+.text2xl{
+    font-size: 20px !important;
+}
