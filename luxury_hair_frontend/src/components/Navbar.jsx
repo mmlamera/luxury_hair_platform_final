@@ -16,7 +16,7 @@ const Navbar = () => {
       );
       setCartItemsCount(totalItems);
     }
-  }, []); // Run once when the component mounts
+  }, []); 
 
   return (
     <nav>

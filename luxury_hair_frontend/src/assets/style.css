@@ -1,4 +1,4 @@
-/* General Styles */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -215,7 +215,61 @@ nav ul li a:hover {
     background-color: #555;
 }
 
-/* Footer (optional) */
+
+
+
+.subscribe-section {
+    padding: 50px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.subscribe-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.subscribe-section p {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.subscribe-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.subscribe-form input {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 16px;
+    width: 250px;
+}
+
+.subscribe-btn {
+    background-color: #333;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.subscribe-btn:hover {
+    background-color: #555;
+}
+
+
+
+
+
+
+/* Footer  */
 footer {
     background-color: #333;
     color: #fff;
@@ -239,5 +293,86 @@ footer p {
 }
 .justify-center{
     justify-content: center;
+}
+
+
+
+
+
+.footer-container {
+    background-color: #f4f4f4;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-top-section {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.footer-feature {
+    text-align: center;
+    flex: 1;
+    margin: 0 15px;
+}
+
+.footer-feature i {
+    font-size: 24px;
+    color: #555;
+}
+
+.footer-feature h3 {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.footer-feature p {
+    font-size: 14px;
+    color: #777;
+}
+
+.footer-bottom-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.footer-column {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.footer-column h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.footer-column p,
+.footer-column ul {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.6;
+}
+
+.footer-column ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+}
+
+.footer-bottom-bar {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
 }
 

@@ -106,3 +106,32 @@
 .text2xl{
     font-size: 20px !important;
 }
+
+.flex{
+    padding: 0em;
+
+}
+
+
+
+
+
+
+
+
+.option-btn {
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    background-color: #000000;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+
+
+.highlighted {
+    background-color: #c8773d;
+    border-color: #ffffff;
+    color: white;
+}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../main.css";
+import "../assets/singleProduct.css";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -135,44 +136,74 @@ const SingleProduct = () => {
               </p>
             </div>
 
-            <div>
-              <p className="text-black py-2">Length</p>
-              <div className="flex">
-                <button onClick={() => setSelectedLength("12 inches")}>
-                  12 Inch
-                </button>
-                <button onClick={() => setSelectedLength("14 inches")}>
-                  14 Inch
-                </button>
-                <button onClick={() => setSelectedLength("16 inches")}>
-                  16 Inch
-                </button>
-              </div>
+            <>
+      {/* Length Section */}
+      <p className="text-black py-2">Length</p>
+      <div className="flex">
+        <button
+          onClick={() => setSelectedLength("12 inches")}
+          className={`option-btn ${selectedLength === "12 inches" ? "highlighted" : ""}`}
+        >
+          12 Inch
+        </button>
+        <button
+          onClick={() => setSelectedLength("14 inches")}
+          className={`option-btn ${selectedLength === "14 inches" ? "highlighted" : ""}`}
+        >
+          14 Inch
+        </button>
+        <button
+          onClick={() => setSelectedLength("16 inches")}
+          className={`option-btn ${selectedLength === "16 inches" ? "highlighted" : ""}`}
+        >
+          16 Inch
+        </button>
+      </div>
 
-              <div className="mt-4 py-2">
-                <p className="text-black">Colour</p>
-                <div className="flex">
-                  <button onClick={() => setSelectedColor("Brown")}>
-                    Brown
-                  </button>
-                  <button onClick={() => setSelectedColor("Black")}>
-                    Black
-                  </button>
-                  <button onClick={() => setSelectedColor("Red")}>Red</button>
-                </div>
-              </div>
+      {/* Color Section */}
+      <div className="mt-4 py-2">
+        <p className="text-black">Color</p>
+        <div className="flex">
+          <button
+            onClick={() => setSelectedColor("Brown")}
+            className={`option-btn ${selectedColor === "Brown" ? "highlighted" : ""}`}
+          >
+            Brown
+          </button>
+          <button
+            onClick={() => setSelectedColor("Black")}
+            className={`option-btn ${selectedColor === "Black" ? "highlighted" : ""}`}
+          >
+            Black
+          </button>
+          <button
+            onClick={() => setSelectedColor("Red")}
+            className={`option-btn ${selectedColor === "Red" ? "highlighted" : ""}`}
+          >
+            Red
+          </button>
+        </div>
+      </div>
 
-              <div className="mt-4 py-2">
-                <p className="text-black">Style</p>
-                <div className="flex">
-                  <button onClick={() => setSelectedStyle("Customized")}>
-                    Customized
-                  </button>
-                  <button onClick={() => setSelectedStyle("Non-Customized")}>
-                    Non-Customized
-                  </button>
-                </div>
-              </div>
+      {/* Style Section */}
+      <div className="mt-4 py-2">
+        <p className="text-black">Style</p>
+        <div className="flex">
+          <button
+            onClick={() => setSelectedStyle("Customized")}
+            className={`option-btn ${selectedStyle === "Customized" ? "highlighted" : ""}`}
+          >
+            Customized
+          </button>
+          <button
+            onClick={() => setSelectedStyle("Non-Customized")}
+            className={`option-btn ${selectedStyle === "Non-Customized" ? "highlighted" : ""}`}
+          >
+            Non-Customized
+          </button>
+        </div>
+      </div>
+    
 
               <div className="mt-4 py-2">
                 <p className="text-black">Quantity</p>
@@ -183,7 +214,7 @@ const SingleProduct = () => {
                   className="bg-white border border-black border-2 text-black px-2 rounded-lg"
                 />
               </div>
-            </div>
+            
 
             <div className="mt-4 py-2">
               <button onClick={handleAddToCart} className="w-full">
@@ -192,7 +223,8 @@ const SingleProduct = () => {
               <button onClick={handleBuyNow} className="w-full mt-2">
                 Buy Now
               </button>
-            </div>
+              </div>
+               </>
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import { useNavigate } from 'react-router-dom'; 
 import '../assets/style.css';
 
 const Hero = () => {
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate(); 
 
     return (
         <section id="home" className="hero">
