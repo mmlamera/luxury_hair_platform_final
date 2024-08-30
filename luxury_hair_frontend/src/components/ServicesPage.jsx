@@ -1,11 +1,34 @@
 import React, { useState } from "react";
 import ServiceButton from "./ServiceButton";
 import BookingForm from "./BookingForm";
-// import { createHairService } from "../services/hairServicesService";
-import Navbar from "./Navbar"; 
+import Navbar from "./Navbar";
 import "../assets/hairServices.css";
 import "../assets/style.css";
 
+
+const baseUrl = import.meta.env.VITE_BACK_END_URL;
+
+
+const createHairService = async (bookingDetails) => {
+  try {
+    const response = await fetch(`${baseUrl}/services`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookingDetails),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error creating hair service:", error);
+    throw error;
+  }
+};
 
 const services = [
   "Straightening of wigs",
@@ -20,17 +43,23 @@ const ServicesPage = () => {
 
   const handleServiceClick = (serviceName) => {
     setSelectedService(serviceName);
-    setBookingDetails(null); 
+    setBookingDetails(null);
   };
 
   const handleBookingSubmit = async (details) => {
     try {
-      await createHairService({
+      
+      const bookingData = {
+        service: details.service,
         image: details.file,
         date: details.date,
         time: details.time,
         additionalNotes: details.additionalNotes,
-      });
+      };
+
+    
+      await createHairService(bookingData);
+
       setBookingDetails(details);
       alert(`Booking submitted successfully for ${details.service}`);
     } catch (error) {
@@ -41,7 +70,7 @@ const ServicesPage = () => {
 
   return (
     <div className="services-page">
-      <Navbar /> 
+      <Navbar />
       <div className="content">
         <h1>Hair Services</h1>
         <div className="service-buttons">
@@ -70,7 +99,6 @@ const ServicesPage = () => {
           </div>
         )}
       </div>
-     
     </div>
   );
 };

@@ -1,34 +1,49 @@
 import React, { useState } from "react";
 import "../assets/style.css";
 
+
+const baseUrl = import.meta.env.VITE_BACK_END_URL;
+
 const Subscribe = () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare the data to be sent to the server
     const data = {
-      email: email, 
+      email: email,
     };
 
     try {
-      // Send POST request to the server
-      const response = await fetch(
-        "http://localhost:8080/LuxuryHairVendingSystemDB3/customer/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
+    
+      const emailExistsResponse = await fetch(
+        `${baseUrl}/newsletter/email-exists?email=${encodeURIComponent(email)}`
       );
 
-      // handle the response
+      if (emailExistsResponse.ok) {
+        const emailExistsData = await emailExistsResponse.json();
+        if (emailExistsData.exists) {
+          alert("This email is already subscribed.");
+          return; 
+        }
+      } else {
+        alert("There was an error checking the email. Please try again.");
+        return; 
+      }
+
+   
+      const response = await fetch(`${baseUrl}/newsletter/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+     
       if (response.ok) {
         alert("Thank you for subscribing!");
-        setEmail(""); // i clear the input field after successful submission
+        setEmail(""); 
       } else {
         alert("There was an error. Please try again.");
       }
