@@ -2,21 +2,21 @@ package za.ac.cput.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import za.ac.cput.services.IProductService;
-import za.ac.cput.services.ProductService;
+import za.ac.cput.services.IShippingService;
+import za.ac.cput.services.ShippingService;
 
 
 @Component
 public class ShippingApi {
 
-    private ProductService service;
+    private ShippingService service;
 
-    private IProductService iProductService;
+    private IShippingService iShippingService;
 
     @Autowired
-    ShippingApi(ProductService service, IProductService iProductService){
+    ShippingApi(ShippingService service, IShippingService iShippingService){
         this.service = service;
-        this.iProductService = iProductService;
+        this.iShippingService = iShippingService;
     }
 
 
