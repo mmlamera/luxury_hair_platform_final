@@ -12,7 +12,9 @@ const Product = () => {
 
   // Fetch products from the backend
   useEffect(() => {
-    fetch("http://localhost:8080/LuxuryHairVendingSystemDB3/product/getall")
+    const baseUrl = import.meta.env.VITE_BACK_END_URL;
+
+    fetch(`${baseUrl}/product/getall`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -37,7 +39,7 @@ const Product = () => {
   if (error) {
     return <p>There was an error loading the products: {error.message}</p>;
   }
-  // /src/assets/Judy.jpg
+
   return (
     <>
       <Navbar />
@@ -45,7 +47,7 @@ const Product = () => {
         <h1 className="products-title">Our Products</h1>
         <div className="products-grid">
           {products.map((product) => (
-            <div key={product.productId} className="product-card ">
+            <div key={product.productId} className="product-card">
               <img
                 src={"src/assets/" + product.image}
                 alt={product.hairStyle}

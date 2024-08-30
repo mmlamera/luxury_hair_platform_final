@@ -1,0 +1,47 @@
+.hero {
+    background-image: url(Kiki.jpg);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.flex{
+    display:flex;
+}
+.px-4{
+    padding-left: 4px;
+    padding-right:4px;
+}
+.align-items-center{
+    align-items: center;
+}
+.justify-center{
+    justify-content: center;
+}
+.bg-black{
+    background-color: black;
+}
+.text-white{
+    color:white;
+}
+.rounded-lg{
+    border-radius: 10px;
+}
+.py-4{
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.hero-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
