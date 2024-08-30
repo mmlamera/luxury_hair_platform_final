@@ -8,6 +8,7 @@ import LandingPage from "./components/LandingPage";
 import Shipping from "./components/Shipping";
 import Reviews from "./components/Reviews";
 import ServicesPage from "./components/ServicesPage";
+import Checkout from "./components/Checkout";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/shipping" element={<Shipping />} />
       </Routes>
     </Router>

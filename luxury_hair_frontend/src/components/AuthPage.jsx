@@ -3,11 +3,13 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import "../assets/AuthPage.css";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
 
   // Access the backend URL from the environment variable
   const baseUrl = import.meta.env.VITE_BACK_END_URL;
@@ -77,6 +79,7 @@ const AuthPage = () => {
         });
 
         if (response.status === 200) {
+          navigate("/home");
           setShowPopup(true); // Show popup message on successful login
         } else {
           throw new Error("Please ensure all fields are entered correctly");
@@ -95,7 +98,7 @@ const AuthPage = () => {
     axios
       .post(`${baseUrl}/userlogin/google-login`, { token: response.credential })
       .then((res) => {
-        alert("Google login successful!");
+        navigate("/home");
       })
       .catch((err) => {
         setErrorMessage("Google login failed. Please try again.");

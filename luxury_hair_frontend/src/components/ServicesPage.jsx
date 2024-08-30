@@ -5,13 +5,11 @@ import Navbar from "./Navbar";
 import "../assets/hairServices.css";
 import "../assets/style.css";
 
-
 const baseUrl = import.meta.env.VITE_BACK_END_URL;
-
 
 const createHairService = async (bookingDetails) => {
   try {
-    const response = await fetch(`${baseUrl}/services`, {
+    const response = await fetch(`${baseUrl}/api/hairservices/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +46,6 @@ const ServicesPage = () => {
 
   const handleBookingSubmit = async (details) => {
     try {
-      
       const bookingData = {
         service: details.service,
         image: details.file,
@@ -57,7 +54,6 @@ const ServicesPage = () => {
         additionalNotes: details.additionalNotes,
       };
 
-    
       await createHairService(bookingData);
 
       setBookingDetails(details);

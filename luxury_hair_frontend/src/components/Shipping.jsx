@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar"; // Import Navbar
-import Footer from "../components/Footer"; // Import Footer
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const baseUrl = import.meta.env.VITE_BACK_END_URL;
 
@@ -15,6 +16,8 @@ const ShippingPage = () => {
   const [province, setProvince] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [trackingNumber, setTrackingNumber] = useState("");
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleSurnameChange = (e) => setSurname(e.target.value);
@@ -42,6 +45,9 @@ const ShippingPage = () => {
         zipCode,
       });
       alert("Shipping details submitted successfully!");
+
+      // Redirect to Checkout Page after successful submission
+      navigate("/checkout");
     } catch (error) {
       console.error("Error submitting shipping details:", error);
       alert("Failed to submit shipping details.");
@@ -50,7 +56,7 @@ const ShippingPage = () => {
 
   return (
     <>
-      <Navbar /> {/* Include Navbar */}
+      <Navbar /> 
       <div
         style={{
           maxWidth: "650px",
@@ -249,7 +255,7 @@ const ShippingPage = () => {
           </div>
         </div>
       </div>
-      <Footer /> {/* Include Footer */}
+      <Footer /> 
     </>
   );
 };
