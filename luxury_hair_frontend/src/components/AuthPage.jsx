@@ -9,27 +9,21 @@ const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  const navigate = useNavigate();
-
-  // Access the backend URL from the environment variable
-  const baseUrl = import.meta.env.VITE_BACK_END_URL;
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/userlogin/`)
+      .get("http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/")
       .then((response) => setIsLogin(response.data))
       .catch((error) =>
         console.error("Error fetching user information:", error)
       );
-  }, [baseUrl]);
+  }, []);
 
-  // Toggle between login and signup forms
   const toggleForm = () => {
     setIsLogin(!isLogin);
     setErrorMessage("");
   };
 
-  // Handle form submission for login and signup
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
@@ -44,61 +38,65 @@ const AuthPage = () => {
       }
 
       if (!isLogin) {
-        // Check if email exists in DB before sign-up
         const emailCheckResponse = await axios.get(
-          `${baseUrl}/userlogin/email-exists?email=${email}`
+          `http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/email-exists?email=${email}`
         );
         if (emailCheckResponse.data.exists) {
           throw new Error("Email already exists. Please log in.");
         }
 
-        // Sign-up logic
         const fullName = formData.get("fullName");
         if (!fullName) {
           throw new Error("Full name is required for sign up.");
         }
 
-        const userID = uuidv4(); // Generating a unique userID
+        const userID = uuidv4();
         const userType = "customer";
 
-        await axios.post(`${baseUrl}/userlogin/create`, {
-          userID,
-          fullName,
-          email,
-          password,
-          userType,
-        });
+        await axios.post(
+          "http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/create",
+          {
+            userID,
+            fullName,
+            email,
+            password,
+            userType,
+          }
+        );
 
         alert("Signup successful! Please log in.");
-        toggleForm(); // Switch to login form after successful signup
+        toggleForm();
       } else {
-        // Login logic
-        const response = await axios.post(`${baseUrl}/userlogin/read`, {
-          email,
-          password,
-        });
+        const response = await axios.post(
+          "http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/read",
+          {
+            email,
+            password,
+          }
+        );
 
         if (response.status === 200) {
-          navigate("/home");
-          setShowPopup(true); // Show popup message on successful login
+          setShowPopup(true);
         } else {
-          throw new Error("Please ensure all fields are entered correctly");
+          throw new Error("Invalid login credentials");
         }
       }
     } catch (error) {
-      setErrorMessage("Please ensure all fields are entered correctly.");
+      setErrorMessage(error.message);
       setShowPopup(true);
     }
   };
 
-  // Handle Google login success
   const handleGoogleLoginSuccess = (response) => {
     console.log("Google login success:", response);
 
     axios
-      .post(`${baseUrl}/userlogin/google-login`, { token: response.credential })
+      .post(
+        "http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/google-login",
+        { token: response.credential }
+      )
       .then((res) => {
-        navigate("/home");
+        alert("Google login successful!");
       })
       .catch((err) => {
         setErrorMessage("Google login failed. Please try again.");
@@ -106,14 +104,12 @@ const AuthPage = () => {
       });
   };
 
-  // Handle Google login error
   const handleGoogleLoginError = (error) => {
     console.log("Google login error:", error);
     setErrorMessage("Google login failed. Please try again.");
     setShowPopup(true);
   };
 
-  // Close the popup message
   const closePopup = () => {
     setShowPopup(false);
     setErrorMessage("");
@@ -125,7 +121,8 @@ const AuthPage = () => {
         {showPopup && (
           <div className="popup">
             <div className="popup-inner">
-              {errorMessage ? <p>{errorMessage}</p> : <p>Login successful!</p>}
+              {errorMessage ? <p>{errorMessage}</p> : <p>Login successful!</p>}{" "}
+              {/* **New Code: Popup message content** */}
               <button className="close-btn" onClick={closePopup}>
                 Close
               </button>

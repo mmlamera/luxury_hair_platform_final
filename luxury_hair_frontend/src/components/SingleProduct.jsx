@@ -18,7 +18,7 @@ const SingleProduct = () => {
   const [review, setReview] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:8080/LuxuryHairVendingSystemDB3/product/read/${id}`)
+    fetch(`http://localhost:8080/LuxuryHairVendingSystemDB/product/read/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -76,7 +76,7 @@ const SingleProduct = () => {
   };
 
   const handleSubmitReview = () => {
-    fetch(`http://localhost:8080/LuxuryHairVendingSystemDB3/reviews`, {
+    fetch(`http://localhost:8080/LuxuryHairVendingSystemDB/reviews`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

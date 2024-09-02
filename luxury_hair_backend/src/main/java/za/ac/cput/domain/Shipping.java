@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-    /*Domain Class : Doctor
-    Author: Liso Mantakana 222764600
-     */
+
 @Entity
     public class Shipping {
          @Id

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../assets/style.css";
 import "../assets/checkout.css";
 
-const Checkoutpage = () => {
+const Checkout = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -168,4 +168,4 @@ const Checkoutpage = () => {
   );
 };
 
-export default Checkoutpage;
+export default Checkout;

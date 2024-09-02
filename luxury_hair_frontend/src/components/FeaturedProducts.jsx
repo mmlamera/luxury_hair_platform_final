@@ -9,7 +9,7 @@ const FeaturedProducts = () => {
 
   // Fetch products from the database
   useEffect(() => {
-    fetch("http://localhost:8080/LuxuryHairVendingSystemDB3/product/getall")
+    fetch("http://localhost:8080/LuxuryHairVendingSystemDB/product/getall")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch products");

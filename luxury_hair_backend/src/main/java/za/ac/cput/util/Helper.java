@@ -1,5 +1,8 @@
 package za.ac.cput.util;
 
+import za.ac.cput.domain.Product;
+
+import java.util.List;
 import java.util.UUID;
 
 public class Helper {
@@ -7,8 +10,43 @@ public class Helper {
         if(s == null || s.isEmpty())
             return true;
         return false;
-//Note to self: dont forget email validation
+
     }
+
+    public static Boolean isListNullOrEmpty(List list){
+        if(list == null || list.isEmpty())
+            return true;
+        return false;
+
+    }
+
+
+    public static Boolean isIntegerNotValid(Integer integer){
+        if(integer == null || integer.toString().isEmpty())
+            return true;
+        return false;
+
+    }
+
+    public static Boolean isLongNotValid(Long l){
+        if(l == null || l.longValue() <= 0)
+            return true;
+        return false;
+
+    }
+
+
+
+    public static boolean isObjectNotValid(Object obj) {
+        return obj == null;
+    }
+
+    public static boolean isNullOrEmpty(Product product) {
+        return product == null /* Additional checks if needed */;
+    }
+
+
+
     public static String generateId(){
         return UUID.randomUUID().toString();
     }

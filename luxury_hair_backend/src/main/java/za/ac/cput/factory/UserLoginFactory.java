@@ -5,7 +5,7 @@ import za.ac.cput.util.Helper;
 
 public class UserLoginFactory {
 
-    public static UserLogin createUserLogin(Long userId, String email, String password, String fullName,String userType) {
+    public static UserLogin buildUserLogin(Long userId, String email, String password, String fullName,String userType) {
         if(Helper.isNullOrEmpty(String.valueOf(userId)) || Helper.isNullOrEmpty(email)|| Helper.isNullOrEmpty(password) || Helper.isNullOrEmpty(fullName) || Helper.isNullOrEmpty(userType)) {
             return null;
         }
