@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 
-public interface IProductService extends IService<Product, String> {
+public interface IProductService extends IService<Product, Long> {
 
     List<Product> getall();
+    boolean delete(Long productId);
 
 }

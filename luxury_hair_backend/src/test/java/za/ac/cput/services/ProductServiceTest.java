@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Product;
 import za.ac.cput.factory.ProductFactory;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -16,11 +19,19 @@ class ProductServiceTest {
 
     Product product;
 
+
+    @Test
     @BeforeEach
     void setUp() {
+        byte[] image;
+        try{
+            image = Files.readAllBytes(Paths.get("src/main/resources/images/Erika.JPG"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-         product = ProductFactory.buildProduct("A6477", "Virgin", "Kinky curls",
-                 "30 inches, 4x4 lace", "Ginger", true, 7000.00);
+        product = ProductFactory.buildProduct("Virgin", "Curly", "13 inches ",
+                 "Black", true, 3500, image);
          assertNotNull(product);
         System.out.println(product);
     }
@@ -45,7 +56,7 @@ class ProductServiceTest {
     @Test
     @Order(3)
     void update() {
-        Product updateProduct = new Product.Builder().copy(product).setProductId("B8855").build();
+        Product updateProduct = new Product.Builder().copy(product).setProductId(21L).build();
         Product updated = productService.update(updateProduct);
         assertNotNull(updated);
         System.out.println(updated);

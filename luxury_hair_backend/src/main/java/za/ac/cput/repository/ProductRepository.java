@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import za.ac.cput.domain.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, String> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Product findProductByProductId(String productId);
+    Product findProductByProductId(Long productId);
 
 }

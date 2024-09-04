@@ -1,18 +1,16 @@
 package za.ac.cput.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String productId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long productId;
 
     private String hairTexture;     //brazilian, peruvian, raw, indian...
     private String hairStyle;       //bob, kinky curls, body wave, straight...
@@ -20,7 +18,9 @@ public class Product {
     private String hairColor;       //red? black? orange?
     private boolean hairStock;      //available or not??
     private double hairPrice;
-    private String image;
+    @Lob
+    @Column(length = 100000)
+    private byte[] image;
 
     protected Product() {
 
@@ -37,7 +37,7 @@ public class Product {
         this.image = builder.image;
     }
 
-    public String getProductId() {
+    public long getProductId() {
         return productId;
     }
 
@@ -64,7 +64,8 @@ public class Product {
     public double getHairPrice() {
         return hairPrice;
     }
-    public String getImage() {
+
+    public byte[] getImage() {
         return image;
     }
 
@@ -74,40 +75,40 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return hairStock == product.hairStock && Double.compare(hairPrice, product.hairPrice) == 0 && Objects.equals(productId, product.productId) && Objects.equals(hairTexture, product.hairTexture) && Objects.equals(hairStyle, product.hairStyle) && Objects.equals(hairSize, product.hairSize) && Objects.equals(hairColor, product.hairColor) && Objects.equals(image, product.image);
+        return hairStock == product.hairStock && Double.compare(hairPrice, product.hairPrice) == 0 && Objects.equals(productId, product.productId) && Objects.equals(hairTexture, product.hairTexture) && Objects.equals(hairStyle, product.hairStyle) && Objects.equals(hairSize, product.hairSize) && Objects.equals(hairColor, product.hairColor) && Objects.deepEquals(image, product.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, hairTexture, hairStyle, hairSize, hairColor, hairStock, hairPrice, image);
+        return Objects.hash(productId, hairTexture, hairStyle, hairSize, hairColor, hairStock, hairPrice, Arrays.hashCode(image));
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "productId='" + productId + '\'' +
+                "productId=" + productId +
                 ", hairTexture='" + hairTexture + '\'' +
                 ", hairStyle='" + hairStyle + '\'' +
                 ", hairSize='" + hairSize + '\'' +
                 ", hairColor='" + hairColor + '\'' +
                 ", hairStock=" + hairStock +
                 ", hairPrice=" + hairPrice +
-                ", image='" + image + '\'' +
+                ", image=" + Arrays.toString(image) +
                 '}';
     }
 
     public static class Builder {
 
-        private String productId;
+        private long productId;
         private String hairTexture;
         private String hairStyle;
         private String hairSize;
         private String hairColor;
         private boolean hairStock;
         private double hairPrice;
-        private String image;
+        private byte[] image;
 
-        public Builder setProductId(String productId) {
+        public Builder setProductId(long productId) {
             this.productId = productId;
             return this;
         }
@@ -142,8 +143,9 @@ public class Product {
             return this;
         }
 
-        public void setImage(String image) {
+        public Builder setImage(byte[] image) {
             this.image = image;
+            return this;
         }
 
         public Builder copy(Product product) {
