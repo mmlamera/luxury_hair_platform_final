@@ -1,9 +1,11 @@
 package za.ac.cput.domain;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,9 +14,6 @@ public class UserLogin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
-
-
-
     private String email;
     private String password;
     private String fullName;
@@ -36,7 +35,6 @@ public class UserLogin {
         this.password = password;
     }
 
-    // Getters and Setters
     public Long getUserId() { return userId; }
 
     public String getEmail() { return email; }
@@ -73,8 +71,6 @@ public class UserLogin {
                 '}';
     }
 
-
-    // Builder pattern
     public static class Builder {
         private Long userId;
         private String email;
