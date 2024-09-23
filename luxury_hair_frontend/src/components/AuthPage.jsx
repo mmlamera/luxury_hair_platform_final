@@ -1,23 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import "../assets/AuthPage.css";
+import React, { useState } from "react";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
-
+import "../assets/AuthPage.css";
+import { v4 as uuidv4 } from "uuid";
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/")
-      .then((response) => setIsLogin(response.data))
-      .catch((error) =>
-        console.error("Error fetching user information:", error)
-      );
-  }, []);
+  const navigate = useNavigate();
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
@@ -76,7 +66,9 @@ const AuthPage = () => {
         );
 
         if (response.status === 200) {
-          setShowPopup(true);
+          window.localStorage.setItem("isLogin", true);
+          alert("Login Successful!");
+          navigate("/");
         } else {
           throw new Error("Invalid login credentials");
         }
@@ -87,90 +79,59 @@ const AuthPage = () => {
     }
   };
 
-  const handleGoogleLoginSuccess = (response) => {
-    console.log("Google login success:", response);
-
-    axios
-      .post(
-        "http://localhost:8080/LuxuryHairVendingSystemDB/userlogin/google-login",
-        { token: response.credential }
-      )
-      .then((res) => {
-        alert("Google login successful!");
-      })
-      .catch((err) => {
-        setErrorMessage("Google login failed. Please try again.");
-        setShowPopup(true);
-      });
-  };
-
-  const handleGoogleLoginError = (error) => {
-    console.log("Google login error:", error);
-    setErrorMessage("Google login failed. Please try again.");
-    setShowPopup(true);
-  };
-
   const closePopup = () => {
-    setShowPopup(false);
+    navigate(-1);
     setErrorMessage("");
   };
 
   return (
-    <GoogleOAuthProvider clientId="116310698020-3tjps2m44tu1vgl6nh6phvt91l0l1mf8.apps.googleusercontent.com">
-      <div className="container">
-        {showPopup && (
-          <div className="popup">
-            <div className="popup-inner">
-              {errorMessage ? <p>{errorMessage}</p> : <p>Login successful!</p>}{" "}
-              {/* **New Code: Popup message content** */}
-              <button className="close-btn" onClick={closePopup}>
-                Close
-              </button>
-            </div>
+    <div className="container">
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-inner">
+            {errorMessage ? <p>{errorMessage}</p> : <p>Login successful!</p>}
+
+
           </div>
+        </div>
         )}
-        <div className="form-container">
-          <h2>{isLogin ? "Login" : "Sign Up"}</h2>
-          <form onSubmit={handleSubmit}>
-            {!isLogin && (
+      <div className="form-container">
+        <button type= "submit" className="close-btn" onClick={closePopup}>
+          X
+        </button>
+        <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+        <form onSubmit={handleSubmit}>
+          {!isLogin && (
               <input
-                type="text"
-                name="fullName"
-                placeholder="Full Name"
-                className="input-field"
+                  type="text"
+                  name="fullName"
+                  placeholder="Full Name"
+                  className="input-field"
               />
-            )}
-            <input
+          )}
+          <input
               type="email"
               name="email"
               placeholder="Email"
               className="input-field"
-            />
-            <input
+          />
+          <input
               type="password"
               name="password"
               placeholder="Password"
               className="input-field"
-            />
-            <button type="submit" className="submit-btn">
-              {isLogin ? "Login" : "Sign Up"}
-            </button>
-            <button type="button" className="toggle-btn" onClick={toggleForm}>
-              {isLogin
+          />
+          <button type="submit" className="submit-btn">
+            {isLogin ? "Login" : "Sign Up"}
+          </button>
+          <button type="button" className="toggle-btn" onClick={toggleForm}>
+            {isLogin
                 ? "Need an account? Sign Up"
                 : "Already have an account? Login"}
-            </button>
-          </form>
-          <div className="social-login">
-            <p>Or {isLogin ? "login" : "sign up"} with:</p>
-            <GoogleLogin
-              onSuccess={handleGoogleLoginSuccess}
-              onError={handleGoogleLoginError}
-            />
-          </div>
-        </div>
+          </button>
+        </form>
       </div>
-    </GoogleOAuthProvider>
+    </div>
   );
 };
 
