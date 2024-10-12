@@ -80,7 +80,7 @@ const AuthPage = () => {
   };
 
   const closePopup = () => {
-    navigate(-1);
+    setShowPopup(false);
     setErrorMessage("");
   };
 
@@ -90,44 +90,42 @@ const AuthPage = () => {
         <div className="popup">
           <div className="popup-inner">
             {errorMessage ? <p>{errorMessage}</p> : <p>Login successful!</p>}
-
-
+            <button className="close-btn" onClick={closePopup}>
+              Close
+            </button>
           </div>
         </div>
-        )}
+      )}
       <div className="form-container">
-        <button type= "submit" className="close-btn" onClick={closePopup}>
-          X
-        </button>
         <h2>{isLogin ? "Login" : "Sign Up"}</h2>
         <form onSubmit={handleSubmit}>
           {!isLogin && (
-              <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Full Name"
-                  className="input-field"
-              />
+            <input
+              type="text"
+              name="fullName"
+              placeholder="Full Name"
+              className="input-field"
+            />
           )}
           <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className="input-field"
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="input-field"
           />
           <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              className="input-field"
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="input-field"
           />
           <button type="submit" className="submit-btn">
             {isLogin ? "Login" : "Sign Up"}
           </button>
           <button type="button" className="toggle-btn" onClick={toggleForm}>
             {isLogin
-                ? "Need an account? Sign Up"
-                : "Already have an account? Login"}
+              ? "Need an account? Sign Up"
+              : "Already have an account? Login"}
           </button>
         </form>
       </div>
