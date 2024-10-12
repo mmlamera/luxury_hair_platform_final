@@ -1,24 +1,20 @@
 package za.ac.cput.factory;
 
+import za.ac.cput.domain.Customer;
 import za.ac.cput.domain.HairServices;
-import za.ac.cput.util.Helper;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class HairServicesFactory {
-
-    public static HairServices buildHairServices(int hairServicesId, byte[] image, LocalDate date, LocalTime time, String additionalNotes) {
-        if (hairServicesId <= 0 || Helper.isArrayNullOrEmpty(image) || date == null || time == null) {
-            return null;
-        }
-
+    public static HairServices buildHairServices(int id, byte[] image, LocalDate date, LocalTime time, String notes, Customer customer) {
         return new HairServices.Builder()
-                .setHairServicesId(hairServicesId)
+                .setHairServicesId(id)
                 .setImage(image)
                 .setDate(date)
                 .setTime(time)
-                .setAdditionalNotes(additionalNotes)
+                .setAdditionalNotes(notes)
+                .setCustomer(customer)
                 .build();
     }
 }

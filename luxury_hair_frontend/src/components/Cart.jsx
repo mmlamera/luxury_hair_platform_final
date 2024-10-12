@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar"; // Import Navbar
-import Footer from "../components/Footer"; // Import Footer
+import Navbar from "../components/Navbar"; 
+import Footer from "../components/Footer"; 
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); 
+
 
   useEffect(() => {
     const cart = localStorage.getItem("cart");
@@ -13,6 +15,7 @@ const Cart = () => {
       setCartItems(JSON.parse(cart));
     }
   }, []);
+
 
   const calculateTotalPrice = () => {
     return cartItems.reduce(
@@ -41,13 +44,37 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    navigate("/shipping");
+   
+    const cartData = {
+      userId: 1, 
+      products: cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      })), 
+    };  navigate("/login");
+
+    // Send the cart data to the backend
+    axios
+      .post(
+        "http://localhost:8080/LuxuryHairVendingSystemDB/cart/create",
+        cartData
+      )
+      .then((response) => {
+        console.log("Cart saved successfully:", response.data);
+        
+        localStorage.removeItem("cart");
+        setCartItems([]);
+        
+      })
+      .catch((error) => {
+        console.error("There was an error saving the cart!", error);
+      });
   };
 
   if (cartItems.length === 0) {
     return (
       <>
-        <Navbar /> {/* Include Navbar */}
+        <Navbar /> 
         <div className="flex flex-col items-center mt-10">
           <h2 className="text-2xl font-semibold text-black mb-4">
             Your Cart is Empty
@@ -56,14 +83,14 @@ const Cart = () => {
             Continue Shopping
           </Link>
         </div>
-        <Footer /> {/* Include Footer */}
+        <Footer /> 
       </>
     );
   }
 
   return (
     <>
-      <Navbar /> {/* Include Navbar */}
+      <Navbar /> 
       <div className="max-w-5xl mx-auto mt-4">
         <h2 className="text-3xl font-bold mb-6 text-center text-black">
           Your Cart
@@ -120,7 +147,7 @@ const Cart = () => {
           </div>
           <div>
             <button
-              onClick={handleCheckout} // Use the handleCheckout function
+              onClick={handleCheckout} 
               className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
             >
               Checkout
@@ -128,7 +155,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <Footer /> {/* Include Footer */}
+      <Footer /> 
     </>
   );
 };

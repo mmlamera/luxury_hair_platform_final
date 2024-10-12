@@ -1,4 +1,4 @@
-// src/components/ServiceButton.js
+
 import React from "react";
 
 const ServiceButton = ({ serviceName, onClick }) => (
