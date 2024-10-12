@@ -1,6 +1,7 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -13,19 +14,16 @@ public class HairServices {
     private int hairServicesId;
 
     @Lob
-    @Column(length = 1000000) // Adjust length as needed
-    private byte[] image;
+    @Column(length = 1000000000)
+    protected byte[] image;
 
-    private LocalDate date;
-    private LocalTime time;
-    private String additionalNotes;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "customerId")
-    private Customer customer;
+    protected LocalDate date;
+    protected LocalTime time;
+    protected String additionalNotes;
 
     // Default constructor
-    public HairServices() {}
+    protected HairServices() {
+    }
 
     public HairServices(Builder builder) {
         this.hairServicesId = builder.hairServicesId;
@@ -33,7 +31,6 @@ public class HairServices {
         this.date = builder.date;
         this.time = builder.time;
         this.additionalNotes = builder.additionalNotes;
-        this.customer = builder.customer;
     }
 
     public int getHairServicesId() {
@@ -56,10 +53,6 @@ public class HairServices {
         return additionalNotes;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,13 +62,12 @@ public class HairServices {
                 Arrays.equals(image, that.image) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(time, that.time) &&
-                Objects.equals(additionalNotes, that.additionalNotes) &&
-                Objects.equals(customer, that.customer);
+                Objects.equals(additionalNotes, that.additionalNotes);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(hairServicesId, date, time, additionalNotes, customer);
+        int result = Objects.hash(hairServicesId, date, time, additionalNotes);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
@@ -88,9 +80,9 @@ public class HairServices {
                 ", date=" + date +
                 ", time=" + time +
                 ", additionalNotes='" + additionalNotes + '\'' +
-                ", customer=" + customer +
                 '}';
     }
+
 
     // Builder Class
     public static class Builder {
@@ -99,7 +91,6 @@ public class HairServices {
         private LocalDate date;
         private LocalTime time;
         private String additionalNotes;
-        private Customer customer;
 
         public Builder setHairServicesId(int hairServicesId) {
             this.hairServicesId = hairServicesId;
@@ -126,18 +117,12 @@ public class HairServices {
             return this;
         }
 
-        public Builder setCustomer(Customer customer) {
-            this.customer = customer;
-            return this;
-        }
-
         public Builder copy(HairServices hairServices) {
             this.hairServicesId = hairServices.hairServicesId;
             this.image = hairServices.image;
             this.date = hairServices.date;
             this.time = hairServices.time;
             this.additionalNotes = hairServices.additionalNotes;
-            this.customer = hairServices.customer;
             return this;
         }
 

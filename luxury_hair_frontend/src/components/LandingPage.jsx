@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../assets/LandingPage.css"; 
+import "../assets/LandingPage.css"; // Updated CSS for full-page layout
 
 const LandingPage = () => {
   return (

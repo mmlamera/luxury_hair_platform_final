@@ -9,5 +9,4 @@ public interface UserLoginRepository extends JpaRepository<UserLogin, Long> {
 
     UserLogin findByEmail(String email);
 
-
 }

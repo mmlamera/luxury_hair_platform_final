@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../assets/style.css";
 import "../assets/products.css";
 
@@ -9,9 +9,7 @@ const FeaturedProducts = () => {
 
   // Fetch products from the database
   useEffect(() => {
-    const baseUrl = import.meta.env.VITE_BACK_END_URL;
-
-    fetch(`${baseUrl}/product/getall`)
+    fetch("http://localhost:8080/LuxuryHairVendingSystemDB/product/getall")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch products");
@@ -42,18 +40,13 @@ const FeaturedProducts = () => {
       <div className="product-list">
         {products.slice(0, 3).map((product) => (
           <div key={product.productId} className="product-card">
-            {/* Display base64-encoded image */}
-            {product.image ? (
-              <img
-                src={`data:image/jpeg;base64,${product.image}`}
-                alt={product.hairStyle}
-                className="product-image"
-              />
-            ) : (
-              <p>No Image Available</p>
-            )}
+            <img
+              src={`src/assets/${product.image}`}
+              alt={product.hairStyle}
+              className="product-image"
+            />
             <h3>{product.hairStyle}</h3>
-            <p>R{product.hairPrice.toFixed(2)}</p>
+            <p>{product.hairPrice}</p>
           </div>
         ))}
       </div>

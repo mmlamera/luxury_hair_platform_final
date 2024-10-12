@@ -1,9 +1,4 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-
-
-
 
 const ShippingPage = () => {
   const [name, setName] = useState('');
@@ -15,8 +10,6 @@ const ShippingPage = () => {
   const [province, setProvince] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [trackingNumber, setTrackingNumber] = useState('');
-
-  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -66,7 +59,6 @@ const ShippingPage = () => {
       province,
       zipCode,
     };
-    navigate("/checkout");
 
     axios.post('http://localhost:8080/LuxuryHairVendingSystemDB/shipping/create', shippingData)
       .then((response) => {
@@ -78,8 +70,6 @@ const ShippingPage = () => {
         console.error(error);
       });
   };
-
-  
 
  
 
@@ -196,7 +186,6 @@ const ShippingPage = () => {
           </button>
           <button onClick={handleCheckout} style={{ flex: 1, padding: '10px', backgroundColor: '#000', color: 'white', border: 'none', borderRadius: '4px' }}>
             Checkout
-
           </button>
         </div>
       </div>
