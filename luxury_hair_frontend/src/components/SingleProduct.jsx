@@ -47,27 +47,92 @@ const SingleProduct = () => {
       quantity,
       image: product.image,
     };
-
-    let cart = localStorage.getItem("cart");
-    cart = cart ? JSON.parse(cart) : [];
-
-    const productIndex = cart.findIndex(
-      (item) =>
-        item.productId === cartProduct.productId &&
-        item.selectedLength === cartProduct.selectedLength &&
-        item.selectedColor === cartProduct.selectedColor &&
-        item.selectedStyle === cartProduct.selectedStyle
-    );
-
-    if (productIndex >= 0) {
-      cart[productIndex].quantity += cartProduct.quantity;
-    } else {
-      cart.push(cartProduct);
+  
+    // Get the userId from localStorage
+    const userId = localStorage.getItem("userId"); // Assuming "userId" is stored in localStorage
+  
+    // Check if userId exists
+    if (!userId) {
+      alert("You need to be logged in to add items to the cart.");
+      return;
     }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Product added to cart!");
+  
+    // Prepare the cartRequest object with user and product objects
+    const cartRequest = {
+      product: {
+        productId: product.productId,         // Product ID
+        hairStyle: product.hairStyle,         // Product hairstyle
+        hairPrice: product.hairPrice,         // Product price
+        hairTexture: product.hairTexture,     // Product texture
+        hairSize: product.hairSize,           // Product size
+        hairColor: product.hairColor,         // Product color
+        hairStock: product.hairStock,         // Product stock
+        image: product.image,                 // Product image
+      },
+      user: {
+        userId: userId,                       // User ID from localStorage
+      },
+      quantity: quantity,                    // Quantity selected by user
+    };
+  
+    const baseUrl = import.meta.env.VITE_BACK_END_URL;
+  
+    // Make the POST request to the backend
+    fetch(`${baseUrl}/cart/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartRequest),     // Send the JSON object
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add product to cart");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Backend returns cartId (assumed)
+        const { cartId } = data;
+  
+        if (cartId) {
+          // Add product with cartId to localStorage
+          let cart = localStorage.getItem("cart");
+          cart = cart ? JSON.parse(cart) : [];
+  
+          const productIndex = cart.findIndex(
+            (item) =>
+              item.productId === cartProduct.productId &&
+              item.selectedLength === cartProduct.selectedLength &&
+              item.selectedColor === cartProduct.selectedColor &&
+              item.selectedStyle === cartProduct.selectedStyle
+          );
+  
+          if (productIndex >= 0) {
+            cart[productIndex].quantity += cartProduct.quantity;
+          } else {
+            // Add cartId to the product in localStorage
+            cart.push({
+              ...cartProduct,
+              cartId: cartId,  // Add cartId received from the backend
+            });
+          }
+  
+          // Save updated cart in localStorage
+          localStorage.setItem("cart", JSON.stringify(cart));
+  
+          alert("Product added to cart!");
+          console.log("Product added to cart:", data);
+        } else {
+          throw new Error("No cartId received from the backend");
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding product to cart:", error);
+        alert("There was an error adding the product to the cart.");
+      });
   };
+  
 
   const handleBuyNow = () => {
     navigate("/cart");
@@ -117,8 +182,6 @@ const SingleProduct = () => {
                 {product.hairStock} in stock
               </p>
             </div>
-
-          
 
             <div className="mt-4 py-2">
               <p className="text-black">Quantity</p>

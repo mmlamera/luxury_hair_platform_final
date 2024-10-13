@@ -66,12 +66,16 @@ const AuthPage = () => {
         );
 
         if (response.status === 200) {
-          window.localStorage.setItem("isLogin", true);
+          console.log('Logged in successfully:', response.data);  // Add this to log the response
+          localStorage.setItem("userId", response.data.userID);
+          localStorage.setItem("isLogin", true);
+          // Check if userID is being set here
           alert("Login Successful!");
           navigate("/");
         } else {
           throw new Error("Invalid login credentials");
         }
+        
       }
     } catch (error) {
       setErrorMessage(error.message);

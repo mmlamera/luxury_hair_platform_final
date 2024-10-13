@@ -24,24 +24,67 @@ const Cart = () => {
     );
   };
 
-  const handleRemoveItem = (
-    productId,
-    selectedLength,
-    selectedColor,
-    selectedStyle
-  ) => {
-    const updatedCart = cartItems.filter(
-      (item) =>
-        !(
-          item.productId === productId &&
-          item.selectedLength === selectedLength &&
-          item.selectedColor === selectedColor &&
-          item.selectedStyle === selectedStyle
-        )
+  const handleRemoveItem = (productId, selectedLength, selectedColor, selectedStyle) => {
+    // Find the item to remove or update in the cart
+    const itemToRemove = cartItems.find(item =>
+      item.productId === productId &&
+      item.selectedLength === selectedLength &&
+      item.selectedColor === selectedColor &&
+      item.selectedStyle === selectedStyle
     );
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
+  
+    if (itemToRemove) {
+     if (itemToRemove) {
+    console.log("Item to remove:", itemToRemove);
+
+    // If quantity > 1, update the quantity in the backend
+    if (itemToRemove.quantity > 1) {
+      axios
+        .put(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/update/${itemToRemove.cartId}?newQuantity=${itemToRemove.quantity - 1}`, {
+          newQuantity: itemToRemove.quantity - 1 }, // payload
+          { headers: { 'Content-Type': 'application/json' }  // Reduce by 1
+        })
+        .then(response => {
+          console.log("Backend update response:", response.data);
+    
+          // Update the local cart items after the backend update
+          const updatedCart = cartItems.map(item =>
+            item.cartId === itemToRemove.cartId
+              ? { ...item, quantity: item.quantity - 1 }  // Reduce quantity locally
+              : item
+          );
+    
+          // Save the updated cart in localStorage
+          setCartItems(updatedCart);
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+          console.log("Cart updated successfully:", response.data);
+        })
+        .catch(error => {
+          console.error("There was an error updating the cart!");
+          console.error("Error details:", error.response ? error.response.data : error);
+        });
+    }
+      else {
+        // If quantity = 1, remove the item from the backend
+        axios
+          .delete(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/delete/${itemToRemove.cartId}`)
+          .then(response => {
+            // Remove the item from the local cart
+            const updatedCart = cartItems.filter(item => item.cartId !== itemToRemove.cartId);
+  
+            // Save the updated cart in localStorage
+            setCartItems(updatedCart);
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
+            console.log("Item removed from cart successfully:", response.data);
+          })
+          .catch(error => {
+            console.error("There was an error removing the item from the cart!", error);
+          });
+      }
+    }
+  }};
+  
+  
 
   const handleCheckout = () => {
    
@@ -117,20 +160,21 @@ const Cart = () => {
                 <td className="p-4">{item.quantity}</td>
                 <td className="p-4">R{item.hairPrice * item.quantity}</td>
                 <td className="p-4">
-                  <button
-                    onClick={() =>
-                      handleRemoveItem(
-                        item.productId,
-                        item.selectedLength,
-                        item.selectedColor,
-                        item.selectedStyle
-                      )
-                    }
-                    className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition"
-                  >
-                    Remove
-                  </button>
-                </td>
+    <button
+        onClick={() =>
+            handleRemoveItem(
+                item.productId,
+                item.selectedLength,
+                item.selectedColor,
+                item.selectedStyle,
+                item.quantity // Pass the quantity
+            )
+        }
+        className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition"
+    >
+        Remove
+    </button>
+</td>
               </tr>
             ))}
           </tbody>
