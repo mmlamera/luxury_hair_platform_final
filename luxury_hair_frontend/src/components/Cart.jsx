@@ -23,6 +23,9 @@ const Cart = () => {
       0
     );
   };
+  const clearCartFromLocalStorage = () => {
+    localStorage.removeItem("cart"); 
+};
 
   const handleRemoveItem = (productId, selectedLength, selectedColor, selectedStyle) => {
 
@@ -55,6 +58,8 @@ const Cart = () => {
           setCartItems(updatedCart);
           localStorage.setItem("cart", JSON.stringify(updatedCart));
           console.log("Cart updated successfully:", response.data);
+          alert("1 item removed");
+          location.reload();
         })
         .catch(error => {
           console.error("There was an error updating the cart!");
@@ -72,6 +77,9 @@ const Cart = () => {
             setCartItems(updatedCart);
             localStorage.setItem("cart", JSON.stringify(updatedCart));
             console.log("Item removed from cart successfully:", response.data);
+            alert("Remove Successful");
+           
+            location.reload();
           })
           .catch(error => {
             console.error("There was an error removing the item from the cart!", error);
@@ -79,6 +87,34 @@ const Cart = () => {
       }
     }
   }};
+  const clearCart = async () => {
+    const userId = localStorage.getItem("userId"); 
+    if (!userId) {
+      console.error('No userId found in localStorage');
+      return; 
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/user/${userId}/clear`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+      });
+  
+      if (response.ok) {
+        clearCartFromLocalStorage();
+        alert('Cart cleared successfully!');
+
+        location.reload();
+      } else {
+        console.error('Failed to clear cart:', response.statusText); 
+      }
+    } catch (error) {
+      console.error('Error clearing cart:', error); 
+    }
+  };
+  
   
   
 
@@ -144,6 +180,7 @@ const Cart = () => {
               <th className="p-4 text-left">Price</th>
               <th className="p-4 text-left">Remove</th>
             </tr>
+            
           </thead>
           <tbody>
             {cartItems.map((item, index) => (
@@ -174,7 +211,10 @@ const Cart = () => {
             ))}
           </tbody>
         </table>
-
+        <label onClick={clearCart} style={{ cursor: 'pointer', color: 'blue' }}>
+      Clear Cart
+    </label>
+        
         <div className="mt-6 flex justify-between items-center">
           <div>
             <Link to="/products" className="text-black hover:underline text-lg">

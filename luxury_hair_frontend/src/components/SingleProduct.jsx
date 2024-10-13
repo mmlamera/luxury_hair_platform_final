@@ -118,6 +118,10 @@ const SingleProduct = () => {
   
           alert("Product added to cart!");
           console.log("Product added to cart:", data);
+          navigate('/products');
+          location.reload();
+
+
         } else {
           throw new Error("No cartId received from the backend");
         }
