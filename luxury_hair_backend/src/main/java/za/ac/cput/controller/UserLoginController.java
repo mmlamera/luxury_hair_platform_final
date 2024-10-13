@@ -1,10 +1,6 @@
 package za.ac.cput.controller;
 
-//import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-//import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-//import com.google.api.client.http.javanet.NetHttpTransport;
-//import com.google.api.client.json.gson.GsonFactory;
-//import za.ac.cput.domain.GoogleLoginRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

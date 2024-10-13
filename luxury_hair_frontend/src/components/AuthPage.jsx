@@ -66,10 +66,10 @@ const AuthPage = () => {
         );
 
         if (response.status === 200) {
-          console.log('Logged in successfully:', response.data);  // Add this to log the response
+          console.log('Logged in successfully:', response.data);  
           localStorage.setItem("userId", response.data.userID);
           localStorage.setItem("isLogin", true);
-          // Check if userID is being set here
+
           alert("Login Successful!");
           navigate("/");
         } else {

@@ -21,7 +21,7 @@ public class Cart {
     private int quantity;
 
     protected Cart() {
-        // Protected constructor for JPA
+       
     }
 
     private Cart(Builder builder) {

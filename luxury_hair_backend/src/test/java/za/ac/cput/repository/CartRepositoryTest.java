@@ -25,7 +25,7 @@ public class CartRepositoryTest {
 
     @Test
     public void testSaveCart() {
-        // Create and save a new UserLogin
+
         UserLogin user = new UserLogin.Builder()
                 .setEmail("testuser@example.com")
                 .setPassword("securepassword")
@@ -33,7 +33,6 @@ public class CartRepositoryTest {
                 .build();
         userLoginRepository.save(user);
 
-        // Create and save a new Product
         Product product = new Product.Builder()
                 .setHairTexture("Brazilian")
                 .setHairStyle("Straight")
@@ -44,7 +43,6 @@ public class CartRepositoryTest {
                 .build();
         productRepository.save(product);
 
-        // Create a new Cart and save it
         Cart cart = new Cart.Builder()
                 .setProduct(product)
                 .setUserLogin(user)
@@ -52,7 +50,6 @@ public class CartRepositoryTest {
                 .build();
         Cart savedCart = cartRepository.save(cart);
 
-        // Verify that the cart is saved successfully
         assertNotNull(savedCart);
         assertEquals(2, savedCart.getQuantity());
         assertEquals(product.getProductId(), savedCart.getProduct().getProductId());
@@ -61,7 +58,7 @@ public class CartRepositoryTest {
 
     @Test
     public void testFindCartsByUserId() {
-        // Create and save a new UserLogin
+
         UserLogin user = new UserLogin.Builder()
                 .setEmail("finduser@example.com")
                 .setPassword("password123")
@@ -69,7 +66,6 @@ public class CartRepositoryTest {
                 .build();
         userLoginRepository.save(user);
 
-        // Create and save a new Product
         Product product = new Product.Builder()
                 .setHairTexture("Peruvian")
                 .setHairStyle("Curly")
@@ -80,17 +76,14 @@ public class CartRepositoryTest {
                 .build();
         productRepository.save(product);
 
-        // Create and save multiple carts for the user
         Cart cart1 = new Cart.Builder().setProduct(product).setUserLogin(user).setQuantity(3).build();
         cartRepository.save(cart1);
 
         Cart cart2 = new Cart.Builder().setProduct(product).setUserLogin(user).setQuantity(5).build();
         cartRepository.save(cart2);
 
-        // Find carts by User ID
         List<Cart> carts = cartRepository.findByUserLogin_UserId(user.getUserId());
 
-        // Verify the results
         assertNotNull(carts);
         assertEquals(2, carts.size());
         assertEquals(user.getUserId(), carts.get(0).getUserLogin().getUserId());

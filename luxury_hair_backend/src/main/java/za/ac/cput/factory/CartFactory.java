@@ -7,7 +7,7 @@ import za.ac.cput.domain.UserLogin;
 public class CartFactory {
 
     public static Cart createCart(Product product, UserLogin userLogin, int quantity) {
-        // Validate input arguments if necessary, for example:
+
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
@@ -18,7 +18,6 @@ public class CartFactory {
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
 
-        // Use the builder to create a Cart instance
         return new Cart.Builder()
                 .setProduct(product)
                 .setUserLogin(userLogin)

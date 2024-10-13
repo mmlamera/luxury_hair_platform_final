@@ -48,42 +48,38 @@ const SingleProduct = () => {
       image: product.image,
     };
   
-    // Get the userId from localStorage
-    const userId = localStorage.getItem("userId"); // Assuming "userId" is stored in localStorage
+     const userId = localStorage.getItem("userId"); 
   
-    // Check if userId exists
     if (!userId) {
       alert("You need to be logged in to add items to the cart.");
       return;
     }
   
-    // Prepare the cartRequest object with user and product objects
     const cartRequest = {
       product: {
-        productId: product.productId,         // Product ID
-        hairStyle: product.hairStyle,         // Product hairstyle
-        hairPrice: product.hairPrice,         // Product price
-        hairTexture: product.hairTexture,     // Product texture
-        hairSize: product.hairSize,           // Product size
-        hairColor: product.hairColor,         // Product color
-        hairStock: product.hairStock,         // Product stock
-        image: product.image,                 // Product image
+        productId: product.productId,         
+        hairStyle: product.hairStyle,         
+        hairPrice: product.hairPrice,         
+        hairTexture: product.hairTexture,     
+        hairSize: product.hairSize,           
+        hairColor: product.hairColor,         
+        hairStock: product.hairStock,        
+        image: product.image,              
       },
       user: {
-        userId: userId,                       // User ID from localStorage
+        userId: userId,                      
       },
-      quantity: quantity,                    // Quantity selected by user
+      quantity: quantity,                  
     };
   
     const baseUrl = import.meta.env.VITE_BACK_END_URL;
   
-    // Make the POST request to the backend
     fetch(`${baseUrl}/cart/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(cartRequest),     // Send the JSON object
+      body: JSON.stringify(cartRequest),  
     })
       .then((response) => {
         if (!response.ok) {
@@ -92,11 +88,11 @@ const SingleProduct = () => {
         return response.json();
       })
       .then((data) => {
-        // Backend returns cartId (assumed)
+       
         const { cartId } = data;
   
         if (cartId) {
-          // Add product with cartId to localStorage
+          
           let cart = localStorage.getItem("cart");
           cart = cart ? JSON.parse(cart) : [];
   
@@ -111,14 +107,13 @@ const SingleProduct = () => {
           if (productIndex >= 0) {
             cart[productIndex].quantity += cartProduct.quantity;
           } else {
-            // Add cartId to the product in localStorage
+         
             cart.push({
               ...cartProduct,
-              cartId: cartId,  // Add cartId received from the backend
+              cartId: cartId,  
             });
           }
   
-          // Save updated cart in localStorage
           localStorage.setItem("cart", JSON.stringify(cart));
   
           alert("Product added to cart!");

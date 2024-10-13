@@ -69,11 +69,11 @@ public class CartServiceTest {
 
     @Test
     void testAddProductToCart_ExistingItem() {
-        cartService.addProductToCart(product, user, 1); // Add first time
-        Cart cart = cartService.addProductToCart(product, user, 2); // Add again
+        cartService.addProductToCart(product, user, 1);
+        Cart cart = cartService.addProductToCart(product, user, 2);
 
         assertThat(cart).isNotNull();
-        assertThat(cart.getQuantity()).isEqualTo(3); // Should be 1 + 2
+        assertThat(cart.getQuantity()).isEqualTo(3); 
     }
 
     @Test
@@ -101,7 +101,7 @@ public class CartServiceTest {
         cartService.deleteCartItem(cart.getCartId());
         cartService.deleteCartItem(11L);
 
-        assertThat(cartService.getCartById(cart.getCartId())).isEmpty(); // Should be deleted
+        assertThat(cartService.getCartById(cart.getCartId())).isEmpty(); 
     }
 
 }

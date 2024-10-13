@@ -13,8 +13,8 @@ import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Product;
 import za.ac.cput.domain.UserLogin;
 import za.ac.cput.repository.CartRepository;
-import za.ac.cput.repository.ProductRepository; // Assuming you have this repository
-import za.ac.cput.repository.UserLoginRepository; // Assuming you have this repository
+import za.ac.cput.repository.ProductRepository;
+import za.ac.cput.repository.UserLoginRepository; 
 import org.springframework.http.HttpMethod;
 import java.util.List;
 
@@ -32,20 +32,20 @@ public class CartControllerTest {
     private CartRepository cartRepository;
 
     @Autowired
-    private ProductRepository productRepository; // Assuming this repository exists
+    private ProductRepository productRepository; 
 
     @Autowired
-    private UserLoginRepository userLoginRepository; // Assuming this repository exists
+    private UserLoginRepository userLoginRepository; 
 
     private final String BASE_URL = "http://localhost:8080/LuxuryHairVendingSystemDB/cart";
 
     private Product product;
     private UserLogin user;
-    private CartController.CartRequest cartRequest; // Reusable cartRequest object
+    private CartController.CartRequest cartRequest; 
 
     @BeforeEach
     public void setup() {
-        // Create and save a Product and UserLogin for testing
+    
         product = new Product.Builder()
                 .setHairTexture("Brazilian")
                 .setHairStyle("Straight")
@@ -62,11 +62,11 @@ public class CartControllerTest {
                 .setUserType("Customer")
                 .build();
 
-        // Save the product and user to the repository
+
         product = productRepository.save(product);
         user = userLoginRepository.save(user);
 
-        // Initialize cartRequest once
+
         cartRequest = new CartController.CartRequest();
         cartRequest.setProduct(product);
         cartRequest.setUser(user);
@@ -85,7 +85,7 @@ public class CartControllerTest {
 
     @Test
     public void testGetCartByUserId() {
-        // First, add a product to the cart for the user to test retrieval
+
         restTemplate.postForEntity(BASE_URL + "/add", cartRequest, Cart.class);
 
         ResponseEntity<Cart[]> response = restTemplate.getForEntity(
@@ -98,9 +98,9 @@ public class CartControllerTest {
 
     @Test
     public void testGetCartById() {
-        // First, add a product to the cart for the user
+
         ResponseEntity<Cart> postResponse = restTemplate.postForEntity(BASE_URL + "/add", cartRequest, Cart.class);
-        Long existingCartId = postResponse.getBody().getCartId(); // Get the ID of the newly created cart
+        Long existingCartId = postResponse.getBody().getCartId(); 
 
         ResponseEntity<Cart> response = restTemplate.getForEntity(
                 BASE_URL + "/item/" + existingCartId, Cart.class);
@@ -112,9 +112,9 @@ public class CartControllerTest {
 
     @Test
     public void testUpdateCartQuantity() {
-        // Add a product to the cart for the user
+
         ResponseEntity<Cart> postResponse = restTemplate.postForEntity(BASE_URL + "/add", cartRequest, Cart.class);
-        Long existingCartId = postResponse.getBody().getCartId(); // Get the ID of the newly created cart
+        Long existingCartId = postResponse.getBody().getCartId();
 
         int newQuantity = 5;
         ResponseEntity<Cart> response = restTemplate.exchange(
@@ -131,10 +131,9 @@ public class CartControllerTest {
 
     @Test
     public void testClearCartForUser() {
-        // Add a product to the cart for the user
+
         restTemplate.postForEntity(BASE_URL + "/add", cartRequest, Cart.class);
 
-        // Now clear the cart for the user
         ResponseEntity<Void> response = restTemplate.exchange(
                 BASE_URL + "/user/" + user.getUserId() + "/clear",
                 HttpMethod.DELETE,
@@ -143,7 +142,6 @@ public class CartControllerTest {
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
 
-        // Verify that the cart is empty for the user
         ResponseEntity<Cart[]> getResponse = restTemplate.getForEntity(
                 BASE_URL + "/user/" + user.getUserId(), Cart[].class);
 
