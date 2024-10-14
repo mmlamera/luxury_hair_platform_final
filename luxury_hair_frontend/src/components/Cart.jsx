@@ -5,9 +5,27 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer"; 
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate(); 
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const cart = localStorage.getItem("cart");
+    if (cart) {
+      setCartItems(JSON.parse(cart));
+    }
+    setLoading(false);
+  }, []);
+
+  const checkLoginAndFetchCart = () => {
+    const isLogin = localStorage.getItem("isLogin"); 
+    if (isLogin !== "true") {
+      console.error("User is not logged in");
+      navigate("/login"); 
+    }
+  };
+ 
 
   useEffect(() => {
     const cart = localStorage.getItem("cart");
@@ -15,7 +33,9 @@ const Cart = () => {
       setCartItems(JSON.parse(cart));
     }
   }, []);
-
+  useEffect(() => {
+    checkLoginAndFetchCart(); 
+  }, []);
 
   const calculateTotalPrice = () => {
     return cartItems.reduce(
@@ -25,6 +45,7 @@ const Cart = () => {
   };
   const clearCartFromLocalStorage = () => {
     localStorage.removeItem("cart"); 
+    setCartItems([]);
 };
 
   const handleRemoveItem = (productId, selectedLength, selectedColor, selectedStyle) => {

@@ -1,11 +1,11 @@
 package za.ac.cput.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Cart {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
@@ -65,9 +65,9 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" +
+        return
+                "product=" + product +
                 "cartId=" + cartId +
-                ", product=" + product +
                 ", userLogin=" + userLogin +
                 ", quantity=" + quantity +
                 '}';

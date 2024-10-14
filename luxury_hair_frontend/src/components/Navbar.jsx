@@ -20,6 +20,7 @@ const Navbar = () => {
       );
       setCartItemsCount(totalItems);
     }
+
     const loginStatus = localStorage.getItem("isLogin");
     setIsLoggedIn(!!loginStatus);
 
@@ -27,9 +28,11 @@ const Navbar = () => {
   }, [location.pathname]);
   const Logout = () => {
     window.localStorage.removeItem("isLogin");
+    localStorage.removeItem("cart"); 
+    localStorage.removeItem("userId");
     window.location.reload();
     alert("Logout Successful");
-
+    navigate("/");
   }
 
 

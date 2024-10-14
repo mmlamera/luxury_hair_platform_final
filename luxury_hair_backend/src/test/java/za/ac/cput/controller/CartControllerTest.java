@@ -16,6 +16,8 @@ import za.ac.cput.repository.CartRepository;
 import za.ac.cput.repository.ProductRepository;
 import za.ac.cput.repository.UserLoginRepository; 
 import org.springframework.http.HttpMethod;
+
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -89,11 +91,12 @@ public class CartControllerTest {
         restTemplate.postForEntity(BASE_URL + "/add", cartRequest, Cart.class);
 
         ResponseEntity<Cart[]> response = restTemplate.getForEntity(
-                BASE_URL + "/user/" + user.getUserId(), Cart[].class);
+                BASE_URL + "/user/" + 1002, Cart[].class);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
         assertThat(response.getBody()).isNotNull();
         assertThat(List.of(response.getBody())).isNotEmpty();
+        System.out.println(Arrays.toString(response.getBody()));
     }
 
     @Test
