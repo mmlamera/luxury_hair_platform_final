@@ -14,11 +14,11 @@ const AdminProduct = () => {
     hairStyle: "",
     hairSize: "",
     hairColor: "",
-    hairStock: true, // Default to true
+    hairStock: true, 
     hairPrice: "",
     image: null,
   });
-  const [editingProduct, setEditingProduct] = useState(null); // For managing product editing
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -82,7 +82,7 @@ const AdminProduct = () => {
       hairColor: product.hairColor,
       hairStock: product.hairStock,
       hairPrice: product.hairPrice,
-      image: null, // Reset image to null on edit
+      image: null, 
     });
   };
 

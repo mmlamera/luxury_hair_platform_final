@@ -1,50 +1,50 @@
 package za.ac.cput.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Cart {
-
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
-    private String productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "productId")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private UserLogin userLogin;
+
     private int quantity;
-    private double price;
 
-
-    public Cart() {
+    protected Cart() {
+       
     }
 
-    public Cart(Builder builder) {
+    private Cart(Builder builder) {
         this.cartId = builder.cartId;
-        this.productId = builder.productId;
+        this.product = builder.product;
+        this.userLogin = builder.userLogin;
         this.quantity = builder.quantity;
-        this.price = builder.price;
     }
 
     public Long getCartId() {
         return cartId;
     }
 
-    public String getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
+    }
+
+    public UserLogin getUserLogin() {
+        return userLogin;
     }
 
     public int getQuantity() {
         return quantity;
-    }
-    public double getPrice() {
-        return price;
     }
 
     @Override
@@ -52,37 +52,45 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return quantity == cart.quantity && Double.compare(price, cart.price) == 0 && Objects.equals(cartId, cart.cartId) && Objects.equals(productId, cart.productId);
+        return quantity == cart.quantity &&
+                Objects.equals(cartId, cart.cartId) &&
+                Objects.equals(product, cart.product) &&
+                Objects.equals(userLogin, cart.userLogin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, productId, quantity, price);
+        return Objects.hash(cartId, product, userLogin, quantity);
     }
 
     @Override
     public String toString() {
-        return "Cart{" +
+        return
+                "product=" + product +
                 "cartId=" + cartId +
-                ", productId='" + productId + '\'' +
+                ", userLogin=" + userLogin +
                 ", quantity=" + quantity +
-                ", price=" + price +
                 '}';
     }
 
     public static class Builder {
         private Long cartId;
-        private String productId;
+        private Product product;
+        private UserLogin userLogin;
         private int quantity;
-        private double price;
 
         public Builder setCartId(Long cartId) {
             this.cartId = cartId;
             return this;
         }
 
-        public Builder setProductId(String productId) {
-            this.productId = productId;
+        public Builder setProduct(Product product) {
+            this.product = product;
+            return this;
+        }
+
+        public Builder setUserLogin(UserLogin userLogin) {
+            this.userLogin = userLogin;
             return this;
         }
 
@@ -91,24 +99,16 @@ public class Cart {
             return this;
         }
 
-        public Builder setPrice(double price) {
-            this.price = price;
-            return this;
-        }
-
-
-        public Cart.Builder copy(Cart cart){
+        public Builder copy(Cart cart) {
             this.cartId = cart.cartId;
-            this.productId = cart.productId;
+            this.product = cart.product;
+            this.userLogin = cart.userLogin;
             this.quantity = cart.quantity;
-            this.price = cart.price;
             return this;
         }
-
 
         public Cart build() {
             return new Cart(this);
         }
     }
 }
-
