@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import "../main.css";
 import "../assets/singleProduct.css";
 
+//hopefully this one has no errors
 const SingleProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const SingleProduct = () => {
   };
 
   const handleBack = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   if (loading) {
@@ -148,7 +149,7 @@ const SingleProduct = () => {
               </p>
               <p className="text-black text-lg py-2">
                 This raw hair resists tangling and shedding, ensuring it remains
-                luscious and voluminous over time, even with daily wear.
+                glowy and voluminous over time, even with daily wear.
               </p>
               <p className="text-black text-lg py-2">
                 Designed to offer all-day comfort, the lightweight nature of the
@@ -173,14 +174,3 @@ const SingleProduct = () => {
 };
 
 export default SingleProduct;
-
-/* Goes in the gap above
-    <div className="mt-4 py-2">
-       <p className="text-black">Quantity</p>
-       <input
-         type="number"
-         value={quantity}
-         onChange={(e) => setQuantity(parseInt(e.target.value))}
-         className="bg-white border border-black border-2 text-black px-2 rounded-lg"
-       />
-     </div>; */
