@@ -137,6 +137,10 @@ const SingleProduct = () => {
     navigate("/cart");
   };
 
+  const handleBack = () => {
+    navigate(-1); 
+  };
+
   if (loading) {
     return <p>Loading product...</p>;
   }
@@ -153,9 +157,14 @@ const SingleProduct = () => {
     <>
       <Navbar />
       <div id="singleproduct" className="max-w-7xl mx-auto mt-4">
-        <div key={product.productId} className="flex rounded-lg shadow-2xl">
+        <button onClick={handleBack} className="back-button">
+          ← Back
+        </button>
+        <div
+          key={product.productId}
+          className="flex rounded-lg shadow-2xl mt-4"
+        >
           <div className="w-full">
-            {/* Display the base64-encoded image */}
             {product.image ? (
               <img
                 src={`data:image/jpeg;base64,${product.image}`}
@@ -170,27 +179,48 @@ const SingleProduct = () => {
           <div className="w-full px-4">
             <div className="flex justify-between w-full">
               <div className="text-black text-2xl">{product.hairStyle}</div>
-              <div className="text-black text-xl">{product.hairPrice}</div>
+              <div className="text-black text-xl">R{product.hairPrice}</div>
             </div>
 
             <div className="w-full justify-end">
-              <p className="text-black text-lg py-2">{product.hairTexture}</p>
-              <p className="text-black text-lg py-2">{product.hairSize}</p>
-              <p className="text-black text-lg py-2">{product.hairColor}</p>
               <p className="text-black text-lg py-2">
-                {product.hairStock} in stock
+                {" "}
+                Texture: {product.hairTexture}
               </p>
-            </div>
+              <p className="text-black text-lg py-2">
+                Inches: {product.hairSize}
+              </p>
+              <p className="text-black text-lg py-2">
+                Color: {product.hairColor}
+              </p>
+              <p className="text-black text-lg py-2">
+                {product.hairStock} In stock!
+              </p>
+              <p className="text-black text-lg py-2">
+                {" "}
+                Fast delivery, ships in 5-7 working days
+              </p>
+              <p className="text-black text-lg py-2">
+                --------------------------------------------------------------------------------------------------------
+              </p>
+              <p className="text-black text-lg py-2">More description:</p>
+              <p className="text-black text-lg py-2">
+                Our {product.hairTexture} hair is 100% raw human hair, offering
+                a soft, smooth texture that mimics natural hair. Its healthy
+                shine and silky feel provide an elegant look, suitable for any
+                occasion.
+              </p>
+              <p className="text-black text-lg py-2">
+                This raw hair resists tangling and shedding, ensuring it remains
+                luscious and voluminous over time, even with daily wear.
+              </p>
+              <p className="text-black text-lg py-2">
+                Designed to offer all-day comfort, the lightweight nature of the
+                hair ensures it doesn't feel heavy on the scalp, making it
+                perfect for extended wear.
+              </p>
 
-            <div className="mt-4 py-2">
-              <p className="text-black">Quantity</p>
-              <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(parseInt(e.target.value))}
-                className="bg-white border border-black border-2 text-black px-2 rounded-lg"
-              />
-            </div>
+            
 
             <div className="mt-4 py-2">
               <button onClick={handleAddToCart} className="w-full">
@@ -208,3 +238,14 @@ const SingleProduct = () => {
 };
 
 export default SingleProduct;
+
+/* Goes in the gap above
+    <div className="mt-4 py-2">
+       <p className="text-black">Quantity</p>
+       <input
+         type="number"
+         value={quantity}
+         onChange={(e) => setQuantity(parseInt(e.target.value))}
+         className="bg-white border border-black border-2 text-black px-2 rounded-lg"
+       />
+     </div>; */
