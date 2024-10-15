@@ -48,27 +48,91 @@ const SingleProduct = () => {
       quantity,
       image: product.image,
     };
-
-    let cart = localStorage.getItem("cart");
-    cart = cart ? JSON.parse(cart) : [];
-
-    const productIndex = cart.findIndex(
-      (item) =>
-        item.productId === cartProduct.productId &&
-        item.selectedLength === cartProduct.selectedLength &&
-        item.selectedColor === cartProduct.selectedColor &&
-        item.selectedStyle === cartProduct.selectedStyle
-    );
-
-    if (productIndex >= 0) {
-      cart[productIndex].quantity += cartProduct.quantity;
-    } else {
-      cart.push(cartProduct);
+  
+     const userId = localStorage.getItem("userId"); 
+  
+    if (!userId) {
+      alert("You need to be logged in to add items to the cart.");
+      return;
     }
+  
+    const cartRequest = {
+      product: {
+        productId: product.productId,         
+        hairStyle: product.hairStyle,         
+        hairPrice: product.hairPrice,         
+        hairTexture: product.hairTexture,     
+        hairSize: product.hairSize,           
+        hairColor: product.hairColor,         
+        hairStock: product.hairStock,        
+        image: product.image,              
+      },
+      user: {
+        userId: userId,                      
+      },
+      quantity: quantity,                  
+    };
+  
+    const baseUrl = import.meta.env.VITE_BACK_END_URL;
+  
+    fetch(`${baseUrl}/cart/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartRequest),  
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add product to cart");
+        }
+        return response.json();
+      })
+      .then((data) => {
+       
+        const { cartId } = data;
+  
+        if (cartId) {
+          
+          let cart = localStorage.getItem("cart");
+          cart = cart ? JSON.parse(cart) : [];
+  
+          const productIndex = cart.findIndex(
+            (item) =>
+              item.productId === cartProduct.productId &&
+              item.selectedLength === cartProduct.selectedLength &&
+              item.selectedColor === cartProduct.selectedColor &&
+              item.selectedStyle === cartProduct.selectedStyle
+          );
+  
+          if (productIndex >= 0) {
+            cart[productIndex].quantity += cartProduct.quantity;
+          } else {
+         
+            cart.push({
+              ...cartProduct,
+              cartId: cartId,  
+            });
+          }
+  
+          localStorage.setItem("cart", JSON.stringify(cart));
+  
+          alert("Product added to cart!");
+          console.log("Product added to cart:", data);
+          navigate('/products');
+          location.reload();
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Product added to cart!");
+
+        } else {
+          throw new Error("No cartId received from the backend");
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding product to cart:", error);
+        alert("There was an error adding the product to the cart.");
+      });
   };
+  
 
   const handleBuyNow = () => {
     navigate("/cart");
@@ -156,7 +220,8 @@ const SingleProduct = () => {
                 hair ensures it doesn't feel heavy on the scalp, making it
                 perfect for extended wear.
               </p>
-            </div>
+
+            
 
             <div className="mt-4 py-2">
               <button onClick={handleAddToCart} className="w-full">

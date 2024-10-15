@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../assets/AuthPage.css";
@@ -9,11 +9,12 @@ const AuthPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
+
   const toggleForm = () => {
     setIsLogin(!isLogin);
     setErrorMessage("");
   };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
@@ -64,14 +65,20 @@ const AuthPage = () => {
             password,
           }
         );
-
+        
         if (response.status === 200) {
-          window.localStorage.setItem("isLogin", true);
+          console.log("Logged in successfully:", response.data);
+          const userId = response.data.match(/UserId: (\d+)/)[1];                   
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("isLogin", true);
+          navigate(-1);
           alert("Login Successful!");
-          navigate("/");
+         
         } else {
           throw new Error("Invalid login credentials");
         }
+        
+        
       }
     } catch (error) {
       setErrorMessage(error.message);

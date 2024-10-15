@@ -3,24 +3,25 @@ package za.ac.cput.factory;
 import za.ac.cput.domain.Cart;
 import za.ac.cput.domain.Product;
 import za.ac.cput.domain.UserLogin;
-import za.ac.cput.util.Helper;
-
-import java.util.List;
 
 public class CartFactory {
 
-    public static Cart buildCart(Long cartId, String productId, int quantity, double price) {
-        if (cartId <= 0 || Helper.isNullOrEmpty(productId) ||  quantity <= 0)
-            return null;
+    public static Cart createCart(Product product, UserLogin userLogin, int quantity) {
 
-        return new Cart.Builder().setProductId(productId)
-                .setCartId(cartId)
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null");
+        }
+        if (userLogin == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+
+        return new Cart.Builder()
+                .setProduct(product)
+                .setUserLogin(userLogin)
                 .setQuantity(quantity)
-                .setPrice(price)
                 .build();
-
-
-
     }
-
 }
