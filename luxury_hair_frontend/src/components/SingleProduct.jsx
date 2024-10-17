@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import "../main.css";
 import "../assets/singleProduct.css";
 
+
 const SingleProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -131,10 +132,13 @@ const SingleProduct = () => {
         alert("There was an error adding the product to the cart.");
       });
   };
-  
 
   const handleBuyNow = () => {
     navigate("/cart");
+  };
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   if (loading) {
@@ -178,7 +182,40 @@ const SingleProduct = () => {
               <p className="text-black text-lg py-2">{product.hairSize}</p>
               <p className="text-black text-lg py-2">{product.hairColor}</p>
               <p className="text-black text-lg py-2">
-                {product.hairStock} in stock
+                {" "}
+                Texture: {product.hairTexture}
+              </p>
+              <p className="text-black text-lg py-2">
+                Inches: {product.hairSize}
+              </p>
+              <p className="text-black text-lg py-2">
+                Color: {product.hairColor}
+              </p>
+              <p className="text-black text-lg py-2">
+                {product.hairStock} In stock!
+              </p>
+              <p className="text-black text-lg py-2">
+                {" "}
+                Fast delivery, ships in 5-7 working days
+              </p>
+              <p className="text-black text-lg py-2">
+                -----------------------------------------------------------------------------------------------------
+              </p>
+              <p className="text-black text-lg py-2">More description:</p>
+              <p className="text-black text-lg py-2">
+                Our {product.hairTexture} hair is 100% raw human hair, offering
+                a soft, smooth texture that mimics natural hair. Its healthy
+                shine and silky feel provide an elegant look, suitable for any
+                occasion.
+              </p>
+              <p className="text-black text-lg py-2">
+                This raw hair resists tangling and shedding, ensuring it remains
+                glowy and voluminous over time, even with daily wear.
+              </p>
+              <p className="text-black text-lg py-2">
+                Designed to offer all-day comfort, the lightweight nature of the
+                hair ensures it doesn't feel heavy on the scalp, making it
+                perfect for extended wear.
               </p>
             </div>
 
