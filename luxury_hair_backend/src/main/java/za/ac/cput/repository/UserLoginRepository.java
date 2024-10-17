@@ -8,6 +8,6 @@ import za.ac.cput.domain.UserLogin;
 public interface UserLoginRepository extends JpaRepository<UserLogin, Long> {
 
     UserLogin findByEmail(String email);
-
+    UserLogin findByUserType(String userType);
 
 }

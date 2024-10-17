@@ -91,7 +91,7 @@ public class CartControllerTest {
         restTemplate.postForEntity(BASE_URL + "/add", cartRequest, Cart.class);
 
         ResponseEntity<Cart[]> response = restTemplate.getForEntity(
-                BASE_URL + "/user/" + 1002, Cart[].class);
+                BASE_URL + "/user/" + 102, Cart[].class);
 
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
         assertThat(response.getBody()).isNotNull();

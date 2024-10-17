@@ -90,7 +90,7 @@ public class CartServiceTest {
     void testGetCartById() {
         Cart cart = cartService.addProductToCart(product, user, 1);
         Cart foundCart = cartService.getCartById(cart.getCartId()).orElse(null);
-
+        System.out.println(foundCart);
         assertThat(foundCart).isNotNull();
         assertThat(foundCart.getCartId()).isEqualTo(cart.getCartId());
     }

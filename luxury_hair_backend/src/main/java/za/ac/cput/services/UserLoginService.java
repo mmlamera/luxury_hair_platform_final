@@ -36,6 +36,9 @@ public class UserLoginService {
     public UserLogin findByEmail(String email) {
         return repo.findByEmail(email);
     }
+    public UserLogin findByUserType(String usertype){
+        return repo.findByUserType(usertype);
+    }
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

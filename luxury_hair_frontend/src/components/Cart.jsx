@@ -7,34 +7,58 @@ import Footer from "../components/Footer";
 const Cart = () => {
   const navigate = useNavigate(); 
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const cart = localStorage.getItem("cart");
-    if (cart) {
-      setCartItems(JSON.parse(cart));
+ 
+  /*useEffect(() => {
+    const interval = setInterval(() => {
+      window.location.reload();
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);*/
+  const fetchCartItems = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/user/${userId}`);
+      const cartData = response.data.map(item => ({
+        productId: item.product.productId,
+        cartId: item.cartId, 
+        hairStyle: item.product.hairTexture,
+        selectedLength: item.product.hairSize,
+        selectedColor: item.product.hairColor,
+        selectedStyle: item.product.hairStyle,
+        hairPrice: item.product.hairPrice,
+        quantity: item.quantity
+      }));
+      setCartItems(cartData); 
+      localStorage.setItem("cart", JSON.stringify(cartData)); 
+      setLoading(false);
+      
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      setError("Failed to load cart items");
+      setLoading(false);
     }
-    setLoading(false);
-  }, []);
+  
+  };
+  
 
   const checkLoginAndFetchCart = () => {
     const isLogin = localStorage.getItem("isLogin"); 
+    const userId = localStorage.getItem("userId");
+    
     if (isLogin !== "true") {
       console.error("User is not logged in");
       navigate("/login"); 
+    } else if (userId) {
+
+      fetchCartItems(userId); 
+  
     }
   };
- 
 
   useEffect(() => {
-    const cart = localStorage.getItem("cart");
-    if (cart) {
-      setCartItems(JSON.parse(cart));
-    }
-  }, []);
-  useEffect(() => {
-    checkLoginAndFetchCart(); 
+    checkLoginAndFetchCart();
+    
   }, []);
 
   const calculateTotalPrice = () => {
@@ -43,13 +67,13 @@ const Cart = () => {
       0
     );
   };
+  
   const clearCartFromLocalStorage = () => {
     localStorage.removeItem("cart"); 
     setCartItems([]);
-};
+  };
 
   const handleRemoveItem = (productId, selectedLength, selectedColor, selectedStyle) => {
-
     const itemToRemove = cartItems.find(item =>
       item.productId === productId &&
       item.selectedLength === selectedLength &&
@@ -58,56 +82,58 @@ const Cart = () => {
     );
   
     if (itemToRemove) {
-     if (itemToRemove) {
-    console.log("Item to remove:", itemToRemove);
-
-    if (itemToRemove.quantity > 1) {
-      axios
-        .put(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/update/${itemToRemove.cartId}?newQuantity=${itemToRemove.quantity - 1}`, {
-          newQuantity: itemToRemove.quantity - 1 }, 
-          { headers: { 'Content-Type': 'application/json' }  
-        })
-        .then(response => {
-          console.log("Backend update response:", response.data);
-    
-          const updatedCart = cartItems.map(item =>
-            item.cartId === itemToRemove.cartId
-              ? { ...item, quantity: item.quantity - 1 } 
-              : item
-          );
-    
-          setCartItems(updatedCart);
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-          console.log("Cart updated successfully:", response.data);
-          alert("1 item removed");
-          location.reload();
-        })
-        .catch(error => {
-          console.error("There was an error updating the cart!");
-          console.error("Error details:", error.response ? error.response.data : error);
-        });
-    }
-      else {
-   
+      console.log("Item to remove:", itemToRemove);
+      console.log("Item cartId:", itemToRemove.cartId); 
+  
+      if (itemToRemove.quantity > 1) {
+       
+        if (itemToRemove.cartId !== undefined) {
+          axios
+            .put(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/update/${itemToRemove.cartId}?newQuantity=${itemToRemove.quantity - 1}`, {
+              newQuantity: itemToRemove.quantity - 1
+            }, { headers: { 'Content-Type': 'application/json' } })
+            .then(response => {
+              console.log("Backend update response:", response.data);
+  
+              const updatedCart = cartItems.map(item =>
+                item.cartId === itemToRemove.cartId
+                  ? { ...item, quantity: item.quantity - 1 }
+                  : item
+              );
+  
+              setCartItems(updatedCart);
+              localStorage.setItem("cart", JSON.stringify(updatedCart));
+              console.log("Cart updated successfully:", response.data);
+              alert("1 item removed");
+            })
+            .catch(error => {
+              console.error("There was an error updating the cart:", error.response ? error.response.data : error);
+            });
+        } else {
+          console.error("cartId is undefined, cannot update the item.");
+        }
+      } else {
+        
         axios
           .delete(`http://localhost:8080/LuxuryHairVendingSystemDB/cart/delete/${itemToRemove.cartId}`)
           .then(response => {
-
             const updatedCart = cartItems.filter(item => item.cartId !== itemToRemove.cartId);
   
             setCartItems(updatedCart);
-            localStorage.setItem("cart", JSON.stringify(updatedCart));
+            localStorage.setItem("cart", JSON.stringify(updatedCart)); 
             console.log("Item removed from cart successfully:", response.data);
             alert("Remove Successful");
-           
-            location.reload();
           })
           .catch(error => {
-            console.error("There was an error removing the item from the cart!", error);
+            console.error("There was an error removing the item from the cart:", error.response ? error.response.data : error);
           });
       }
+    } else {
+      console.log("Item not found in cart.");
     }
-  }};
+  };
+  
+
   const clearCart = async () => {
     const userId = localStorage.getItem("userId"); 
     if (!userId) {
@@ -126,7 +152,6 @@ const Cart = () => {
       if (response.ok) {
         clearCartFromLocalStorage();
         alert('Cart cleared successfully!');
-
         location.reload();
       } else {
         console.error('Failed to clear cart:', response.statusText); 
@@ -135,19 +160,16 @@ const Cart = () => {
       console.error('Error clearing cart:', error); 
     }
   };
-  
-  
-  
 
   const handleCheckout = () => {
-   
     const cartData = {
       userId: 1, 
       products: cartItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
       })), 
-    };  navigate("/login");
+    };  
+    navigate("/Checkout");
 
     axios
       .post(
@@ -201,7 +223,6 @@ const Cart = () => {
               <th className="p-4 text-left">Price</th>
               <th className="p-4 text-left">Remove</th>
             </tr>
-            
           </thead>
           <tbody>
             {cartItems.map((item, index) => (
@@ -213,28 +234,27 @@ const Cart = () => {
                 <td className="p-4">{item.quantity}</td>
                 <td className="p-4">R{item.hairPrice * item.quantity}</td>
                 <td className="p-4">
-    <button
-        onClick={() =>
-            handleRemoveItem(
-                item.productId,
-                item.selectedLength,
-                item.selectedColor,
-                item.selectedStyle,
-                item.quantity 
-            )
-        }
-        className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition"
-    >
-        Remove
-    </button>
-</td>
+                  <button
+                    onClick={() =>
+                      handleRemoveItem(
+                        item.productId,
+                        item.selectedLength,
+                        item.selectedColor,
+                        item.selectedStyle
+                      )
+                    }
+                    className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition"
+                  >
+                    Remove
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
         <label onClick={clearCart} style={{ cursor: 'pointer', color: 'blue' }}>
-      Clear Cart
-    </label>
+          Clear Cart
+        </label>
         
         <div className="mt-6 flex justify-between items-center">
           <div>
@@ -247,8 +267,8 @@ const Cart = () => {
           </div>
           <div>
             <button
-              onClick={handleCheckout} 
-              className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
+              onClick={handleCheckout}
+              className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
             >
               Checkout
             </button>

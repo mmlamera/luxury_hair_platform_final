@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.UserLogin;
+import za.ac.cput.dto.UserLoginResponse;
 import za.ac.cput.services.UserLoginService;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,15 @@ public class UserLoginController {
     public UserLogin createUser(@RequestBody UserLogin request) {
         return userLoginService.create(request);
     }
-
+    @GetMapping("/type/{usertype}")
+    public ResponseEntity<UserLogin> getUserByUserType(@PathVariable String usertype) {
+        UserLogin userLogin = userLoginService.findByUserType(usertype);
+        if (userLogin != null) {
+            return ResponseEntity.ok(userLogin);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
     @PostMapping("/read")
     public ResponseEntity<?> loginUser(@RequestBody UserLogin loginDetails) {
@@ -31,12 +40,17 @@ public class UserLoginController {
             boolean isAuthenticated = userLoginService.authenticateUser(loginDetails.getEmail(), loginDetails.getPassword());
 
             if (isAuthenticated) {
-                // Retrieve the UserLogin details (including the userId) based on email
+                // Retrieve the UserLogin details (including the userId and userType) based on email
                 UserLogin user = userLoginService.findByEmail(loginDetails.getEmail());
 
                 if (user != null) {
-                    // Return the userId along with the success message
-                    return ResponseEntity.ok("Login successful! UserId: " + user.getUserId());
+                    // Return the userId and userType in the response
+                    UserLoginResponse response = new UserLoginResponse(
+                            user.getUserId(),
+                            user.getUserType(),
+                            "Login successful!"
+                    );
+                    return ResponseEntity.ok(response);
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
                 }
@@ -47,6 +61,7 @@ public class UserLoginController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login. Please try again.");
         }
     }
+
 
     @GetMapping("/email-exists")
     public ResponseEntity<Map<String, Boolean>> checkEmailExists(@RequestParam String email) {

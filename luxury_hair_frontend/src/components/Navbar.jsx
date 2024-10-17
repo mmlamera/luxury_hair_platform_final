@@ -30,9 +30,13 @@ const Navbar = () => {
     window.localStorage.removeItem("isLogin");
     localStorage.removeItem("cart"); 
     localStorage.removeItem("userId");
+    localStorage.removeItem("userType");
     window.location.reload();
     alert("Logout Successful");
-    navigate("/");
+    nav("/");
+    
+    
+
   }
 
 
